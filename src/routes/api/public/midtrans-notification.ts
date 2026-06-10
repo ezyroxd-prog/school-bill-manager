@@ -47,7 +47,7 @@ export const Route = createFileRoute("/api/public/midtrans-notification")({
           const isSuccess = mapped === "settlement" || (mapped === "capture" && fraud_status !== "deny");
 
           await supabaseAdmin.from("payments").update({
-            transaction_status: mapped,
+            transaction_status: mapped as "pending" | "settlement" | "capture" | "expire" | "cancel" | "deny" | "failure" | "refund",
             fraud_status: fraud_status ?? null,
             payment_type: payment_type ?? null,
             transaction_id: transaction_id ?? null,
