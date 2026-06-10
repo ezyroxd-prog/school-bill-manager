@@ -9,38 +9,292 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as VerifyCodeRouteImport } from './routes/verify.$code'
+import { Route as AuthenticatedTagihanRouteImport } from './routes/_authenticated/tagihan'
+import { Route as AuthenticatedNotaRouteImport } from './routes/_authenticated/nota'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as ApiPublicMidtransNotificationRouteImport } from './routes/api/public/midtrans-notification'
+import { Route as AuthenticatedTagihanIdRouteImport } from './routes/_authenticated/tagihan.$id'
+import { Route as AuthenticatedNotaIdRouteImport } from './routes/_authenticated/nota.$id'
+import { Route as AuthenticatedAdminTahunAjaranRouteImport } from './routes/_authenticated/admin.tahun-ajaran'
+import { Route as AuthenticatedAdminTagihanRouteImport } from './routes/_authenticated/admin.tagihan'
+import { Route as AuthenticatedAdminSiswaRouteImport } from './routes/_authenticated/admin.siswa'
+import { Route as AuthenticatedAdminPengaturanRouteImport } from './routes/_authenticated/admin.pengaturan'
+import { Route as AuthenticatedAdminPembayaranRouteImport } from './routes/_authenticated/admin.pembayaran'
+import { Route as AuthenticatedAdminOrangTuaRouteImport } from './routes/_authenticated/admin.orang-tua'
+import { Route as AuthenticatedAdminLaporanRouteImport } from './routes/_authenticated/admin.laporan'
+import { Route as AuthenticatedAdminKelasRouteImport } from './routes/_authenticated/admin.kelas'
+import { Route as AuthenticatedAdminJenisTagihanRouteImport } from './routes/_authenticated/admin.jenis-tagihan'
+import { Route as AuthenticatedAdminAktivitasRouteImport } from './routes/_authenticated/admin.aktivitas'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VerifyCodeRoute = VerifyCodeRouteImport.update({
+  id: '/verify/$code',
+  path: '/verify/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedTagihanRoute = AuthenticatedTagihanRouteImport.update({
+  id: '/tagihan',
+  path: '/tagihan',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotaRoute = AuthenticatedNotaRouteImport.update({
+  id: '/nota',
+  path: '/nota',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ApiPublicMidtransNotificationRoute =
+  ApiPublicMidtransNotificationRouteImport.update({
+    id: '/api/public/midtrans-notification',
+    path: '/api/public/midtrans-notification',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedTagihanIdRoute = AuthenticatedTagihanIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedTagihanRoute,
+} as any)
+const AuthenticatedNotaIdRoute = AuthenticatedNotaIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedNotaRoute,
+} as any)
+const AuthenticatedAdminTahunAjaranRoute =
+  AuthenticatedAdminTahunAjaranRouteImport.update({
+    id: '/admin/tahun-ajaran',
+    path: '/admin/tahun-ajaran',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminTagihanRoute =
+  AuthenticatedAdminTagihanRouteImport.update({
+    id: '/admin/tagihan',
+    path: '/admin/tagihan',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSiswaRoute = AuthenticatedAdminSiswaRouteImport.update({
+  id: '/admin/siswa',
+  path: '/admin/siswa',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminPengaturanRoute =
+  AuthenticatedAdminPengaturanRouteImport.update({
+    id: '/admin/pengaturan',
+    path: '/admin/pengaturan',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminPembayaranRoute =
+  AuthenticatedAdminPembayaranRouteImport.update({
+    id: '/admin/pembayaran',
+    path: '/admin/pembayaran',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminOrangTuaRoute =
+  AuthenticatedAdminOrangTuaRouteImport.update({
+    id: '/admin/orang-tua',
+    path: '/admin/orang-tua',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminLaporanRoute =
+  AuthenticatedAdminLaporanRouteImport.update({
+    id: '/admin/laporan',
+    path: '/admin/laporan',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminKelasRoute = AuthenticatedAdminKelasRouteImport.update({
+  id: '/admin/kelas',
+  path: '/admin/kelas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminJenisTagihanRoute =
+  AuthenticatedAdminJenisTagihanRouteImport.update({
+    id: '/admin/jenis-tagihan',
+    path: '/admin/jenis-tagihan',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminAktivitasRoute =
+  AuthenticatedAdminAktivitasRouteImport.update({
+    id: '/admin/aktivitas',
+    path: '/admin/aktivitas',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/nota': typeof AuthenticatedNotaRouteWithChildren
+  '/tagihan': typeof AuthenticatedTagihanRouteWithChildren
+  '/verify/$code': typeof VerifyCodeRoute
+  '/admin/aktivitas': typeof AuthenticatedAdminAktivitasRoute
+  '/admin/jenis-tagihan': typeof AuthenticatedAdminJenisTagihanRoute
+  '/admin/kelas': typeof AuthenticatedAdminKelasRoute
+  '/admin/laporan': typeof AuthenticatedAdminLaporanRoute
+  '/admin/orang-tua': typeof AuthenticatedAdminOrangTuaRoute
+  '/admin/pembayaran': typeof AuthenticatedAdminPembayaranRoute
+  '/admin/pengaturan': typeof AuthenticatedAdminPengaturanRoute
+  '/admin/siswa': typeof AuthenticatedAdminSiswaRoute
+  '/admin/tagihan': typeof AuthenticatedAdminTagihanRoute
+  '/admin/tahun-ajaran': typeof AuthenticatedAdminTahunAjaranRoute
+  '/nota/$id': typeof AuthenticatedNotaIdRoute
+  '/tagihan/$id': typeof AuthenticatedTagihanIdRoute
+  '/api/public/midtrans-notification': typeof ApiPublicMidtransNotificationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/nota': typeof AuthenticatedNotaRouteWithChildren
+  '/tagihan': typeof AuthenticatedTagihanRouteWithChildren
+  '/verify/$code': typeof VerifyCodeRoute
+  '/admin/aktivitas': typeof AuthenticatedAdminAktivitasRoute
+  '/admin/jenis-tagihan': typeof AuthenticatedAdminJenisTagihanRoute
+  '/admin/kelas': typeof AuthenticatedAdminKelasRoute
+  '/admin/laporan': typeof AuthenticatedAdminLaporanRoute
+  '/admin/orang-tua': typeof AuthenticatedAdminOrangTuaRoute
+  '/admin/pembayaran': typeof AuthenticatedAdminPembayaranRoute
+  '/admin/pengaturan': typeof AuthenticatedAdminPengaturanRoute
+  '/admin/siswa': typeof AuthenticatedAdminSiswaRoute
+  '/admin/tagihan': typeof AuthenticatedAdminTagihanRoute
+  '/admin/tahun-ajaran': typeof AuthenticatedAdminTahunAjaranRoute
+  '/nota/$id': typeof AuthenticatedNotaIdRoute
+  '/tagihan/$id': typeof AuthenticatedTagihanIdRoute
+  '/api/public/midtrans-notification': typeof ApiPublicMidtransNotificationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/nota': typeof AuthenticatedNotaRouteWithChildren
+  '/_authenticated/tagihan': typeof AuthenticatedTagihanRouteWithChildren
+  '/verify/$code': typeof VerifyCodeRoute
+  '/_authenticated/admin/aktivitas': typeof AuthenticatedAdminAktivitasRoute
+  '/_authenticated/admin/jenis-tagihan': typeof AuthenticatedAdminJenisTagihanRoute
+  '/_authenticated/admin/kelas': typeof AuthenticatedAdminKelasRoute
+  '/_authenticated/admin/laporan': typeof AuthenticatedAdminLaporanRoute
+  '/_authenticated/admin/orang-tua': typeof AuthenticatedAdminOrangTuaRoute
+  '/_authenticated/admin/pembayaran': typeof AuthenticatedAdminPembayaranRoute
+  '/_authenticated/admin/pengaturan': typeof AuthenticatedAdminPengaturanRoute
+  '/_authenticated/admin/siswa': typeof AuthenticatedAdminSiswaRoute
+  '/_authenticated/admin/tagihan': typeof AuthenticatedAdminTagihanRoute
+  '/_authenticated/admin/tahun-ajaran': typeof AuthenticatedAdminTahunAjaranRoute
+  '/_authenticated/nota/$id': typeof AuthenticatedNotaIdRoute
+  '/_authenticated/tagihan/$id': typeof AuthenticatedTagihanIdRoute
+  '/api/public/midtrans-notification': typeof ApiPublicMidtransNotificationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/nota'
+    | '/tagihan'
+    | '/verify/$code'
+    | '/admin/aktivitas'
+    | '/admin/jenis-tagihan'
+    | '/admin/kelas'
+    | '/admin/laporan'
+    | '/admin/orang-tua'
+    | '/admin/pembayaran'
+    | '/admin/pengaturan'
+    | '/admin/siswa'
+    | '/admin/tagihan'
+    | '/admin/tahun-ajaran'
+    | '/nota/$id'
+    | '/tagihan/$id'
+    | '/api/public/midtrans-notification'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/nota'
+    | '/tagihan'
+    | '/verify/$code'
+    | '/admin/aktivitas'
+    | '/admin/jenis-tagihan'
+    | '/admin/kelas'
+    | '/admin/laporan'
+    | '/admin/orang-tua'
+    | '/admin/pembayaran'
+    | '/admin/pengaturan'
+    | '/admin/siswa'
+    | '/admin/tagihan'
+    | '/admin/tahun-ajaran'
+    | '/nota/$id'
+    | '/tagihan/$id'
+    | '/api/public/midtrans-notification'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/nota'
+    | '/_authenticated/tagihan'
+    | '/verify/$code'
+    | '/_authenticated/admin/aktivitas'
+    | '/_authenticated/admin/jenis-tagihan'
+    | '/_authenticated/admin/kelas'
+    | '/_authenticated/admin/laporan'
+    | '/_authenticated/admin/orang-tua'
+    | '/_authenticated/admin/pembayaran'
+    | '/_authenticated/admin/pengaturan'
+    | '/_authenticated/admin/siswa'
+    | '/_authenticated/admin/tagihan'
+    | '/_authenticated/admin/tahun-ajaran'
+    | '/_authenticated/nota/$id'
+    | '/_authenticated/tagihan/$id'
+    | '/api/public/midtrans-notification'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  VerifyCodeRoute: typeof VerifyCodeRoute
+  ApiPublicMidtransNotificationRoute: typeof ApiPublicMidtransNotificationRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +302,191 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/verify/$code': {
+      id: '/verify/$code'
+      path: '/verify/$code'
+      fullPath: '/verify/$code'
+      preLoaderRoute: typeof VerifyCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/tagihan': {
+      id: '/_authenticated/tagihan'
+      path: '/tagihan'
+      fullPath: '/tagihan'
+      preLoaderRoute: typeof AuthenticatedTagihanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/nota': {
+      id: '/_authenticated/nota'
+      path: '/nota'
+      fullPath: '/nota'
+      preLoaderRoute: typeof AuthenticatedNotaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/public/midtrans-notification': {
+      id: '/api/public/midtrans-notification'
+      path: '/api/public/midtrans-notification'
+      fullPath: '/api/public/midtrans-notification'
+      preLoaderRoute: typeof ApiPublicMidtransNotificationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/tagihan/$id': {
+      id: '/_authenticated/tagihan/$id'
+      path: '/$id'
+      fullPath: '/tagihan/$id'
+      preLoaderRoute: typeof AuthenticatedTagihanIdRouteImport
+      parentRoute: typeof AuthenticatedTagihanRoute
+    }
+    '/_authenticated/nota/$id': {
+      id: '/_authenticated/nota/$id'
+      path: '/$id'
+      fullPath: '/nota/$id'
+      preLoaderRoute: typeof AuthenticatedNotaIdRouteImport
+      parentRoute: typeof AuthenticatedNotaRoute
+    }
+    '/_authenticated/admin/tahun-ajaran': {
+      id: '/_authenticated/admin/tahun-ajaran'
+      path: '/admin/tahun-ajaran'
+      fullPath: '/admin/tahun-ajaran'
+      preLoaderRoute: typeof AuthenticatedAdminTahunAjaranRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/tagihan': {
+      id: '/_authenticated/admin/tagihan'
+      path: '/admin/tagihan'
+      fullPath: '/admin/tagihan'
+      preLoaderRoute: typeof AuthenticatedAdminTagihanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/siswa': {
+      id: '/_authenticated/admin/siswa'
+      path: '/admin/siswa'
+      fullPath: '/admin/siswa'
+      preLoaderRoute: typeof AuthenticatedAdminSiswaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/pengaturan': {
+      id: '/_authenticated/admin/pengaturan'
+      path: '/admin/pengaturan'
+      fullPath: '/admin/pengaturan'
+      preLoaderRoute: typeof AuthenticatedAdminPengaturanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/pembayaran': {
+      id: '/_authenticated/admin/pembayaran'
+      path: '/admin/pembayaran'
+      fullPath: '/admin/pembayaran'
+      preLoaderRoute: typeof AuthenticatedAdminPembayaranRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/orang-tua': {
+      id: '/_authenticated/admin/orang-tua'
+      path: '/admin/orang-tua'
+      fullPath: '/admin/orang-tua'
+      preLoaderRoute: typeof AuthenticatedAdminOrangTuaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/laporan': {
+      id: '/_authenticated/admin/laporan'
+      path: '/admin/laporan'
+      fullPath: '/admin/laporan'
+      preLoaderRoute: typeof AuthenticatedAdminLaporanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/kelas': {
+      id: '/_authenticated/admin/kelas'
+      path: '/admin/kelas'
+      fullPath: '/admin/kelas'
+      preLoaderRoute: typeof AuthenticatedAdminKelasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/jenis-tagihan': {
+      id: '/_authenticated/admin/jenis-tagihan'
+      path: '/admin/jenis-tagihan'
+      fullPath: '/admin/jenis-tagihan'
+      preLoaderRoute: typeof AuthenticatedAdminJenisTagihanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/aktivitas': {
+      id: '/_authenticated/admin/aktivitas'
+      path: '/admin/aktivitas'
+      fullPath: '/admin/aktivitas'
+      preLoaderRoute: typeof AuthenticatedAdminAktivitasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedNotaRouteChildren {
+  AuthenticatedNotaIdRoute: typeof AuthenticatedNotaIdRoute
+}
+
+const AuthenticatedNotaRouteChildren: AuthenticatedNotaRouteChildren = {
+  AuthenticatedNotaIdRoute: AuthenticatedNotaIdRoute,
+}
+
+const AuthenticatedNotaRouteWithChildren =
+  AuthenticatedNotaRoute._addFileChildren(AuthenticatedNotaRouteChildren)
+
+interface AuthenticatedTagihanRouteChildren {
+  AuthenticatedTagihanIdRoute: typeof AuthenticatedTagihanIdRoute
+}
+
+const AuthenticatedTagihanRouteChildren: AuthenticatedTagihanRouteChildren = {
+  AuthenticatedTagihanIdRoute: AuthenticatedTagihanIdRoute,
+}
+
+const AuthenticatedTagihanRouteWithChildren =
+  AuthenticatedTagihanRoute._addFileChildren(AuthenticatedTagihanRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedNotaRoute: typeof AuthenticatedNotaRouteWithChildren
+  AuthenticatedTagihanRoute: typeof AuthenticatedTagihanRouteWithChildren
+  AuthenticatedAdminAktivitasRoute: typeof AuthenticatedAdminAktivitasRoute
+  AuthenticatedAdminJenisTagihanRoute: typeof AuthenticatedAdminJenisTagihanRoute
+  AuthenticatedAdminKelasRoute: typeof AuthenticatedAdminKelasRoute
+  AuthenticatedAdminLaporanRoute: typeof AuthenticatedAdminLaporanRoute
+  AuthenticatedAdminOrangTuaRoute: typeof AuthenticatedAdminOrangTuaRoute
+  AuthenticatedAdminPembayaranRoute: typeof AuthenticatedAdminPembayaranRoute
+  AuthenticatedAdminPengaturanRoute: typeof AuthenticatedAdminPengaturanRoute
+  AuthenticatedAdminSiswaRoute: typeof AuthenticatedAdminSiswaRoute
+  AuthenticatedAdminTagihanRoute: typeof AuthenticatedAdminTagihanRoute
+  AuthenticatedAdminTahunAjaranRoute: typeof AuthenticatedAdminTahunAjaranRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedNotaRoute: AuthenticatedNotaRouteWithChildren,
+  AuthenticatedTagihanRoute: AuthenticatedTagihanRouteWithChildren,
+  AuthenticatedAdminAktivitasRoute: AuthenticatedAdminAktivitasRoute,
+  AuthenticatedAdminJenisTagihanRoute: AuthenticatedAdminJenisTagihanRoute,
+  AuthenticatedAdminKelasRoute: AuthenticatedAdminKelasRoute,
+  AuthenticatedAdminLaporanRoute: AuthenticatedAdminLaporanRoute,
+  AuthenticatedAdminOrangTuaRoute: AuthenticatedAdminOrangTuaRoute,
+  AuthenticatedAdminPembayaranRoute: AuthenticatedAdminPembayaranRoute,
+  AuthenticatedAdminPengaturanRoute: AuthenticatedAdminPengaturanRoute,
+  AuthenticatedAdminSiswaRoute: AuthenticatedAdminSiswaRoute,
+  AuthenticatedAdminTagihanRoute: AuthenticatedAdminTagihanRoute,
+  AuthenticatedAdminTahunAjaranRoute: AuthenticatedAdminTahunAjaranRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  VerifyCodeRoute: VerifyCodeRoute,
+  ApiPublicMidtransNotificationRoute: ApiPublicMidtransNotificationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
