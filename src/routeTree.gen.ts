@@ -9,38 +9,152 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAdminTahunAjaranRouteImport } from './routes/_authenticated/admin.tahun-ajaran'
+import { Route as AuthenticatedAdminSiswaRouteImport } from './routes/_authenticated/admin.siswa'
+import { Route as AuthenticatedAdminOrangTuaRouteImport } from './routes/_authenticated/admin.orang-tua'
+import { Route as AuthenticatedAdminKelasRouteImport } from './routes/_authenticated/admin.kelas'
+import { Route as AuthenticatedAdminJenisTagihanRouteImport } from './routes/_authenticated/admin.jenis-tagihan'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminTahunAjaranRoute =
+  AuthenticatedAdminTahunAjaranRouteImport.update({
+    id: '/admin/tahun-ajaran',
+    path: '/admin/tahun-ajaran',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminSiswaRoute = AuthenticatedAdminSiswaRouteImport.update({
+  id: '/admin/siswa',
+  path: '/admin/siswa',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminOrangTuaRoute =
+  AuthenticatedAdminOrangTuaRouteImport.update({
+    id: '/admin/orang-tua',
+    path: '/admin/orang-tua',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminKelasRoute = AuthenticatedAdminKelasRouteImport.update({
+  id: '/admin/kelas',
+  path: '/admin/kelas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminJenisTagihanRoute =
+  AuthenticatedAdminJenisTagihanRouteImport.update({
+    id: '/admin/jenis-tagihan',
+    path: '/admin/jenis-tagihan',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/admin/jenis-tagihan': typeof AuthenticatedAdminJenisTagihanRoute
+  '/admin/kelas': typeof AuthenticatedAdminKelasRoute
+  '/admin/orang-tua': typeof AuthenticatedAdminOrangTuaRoute
+  '/admin/siswa': typeof AuthenticatedAdminSiswaRoute
+  '/admin/tahun-ajaran': typeof AuthenticatedAdminTahunAjaranRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/admin/jenis-tagihan': typeof AuthenticatedAdminJenisTagihanRoute
+  '/admin/kelas': typeof AuthenticatedAdminKelasRoute
+  '/admin/orang-tua': typeof AuthenticatedAdminOrangTuaRoute
+  '/admin/siswa': typeof AuthenticatedAdminSiswaRoute
+  '/admin/tahun-ajaran': typeof AuthenticatedAdminTahunAjaranRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/admin/jenis-tagihan': typeof AuthenticatedAdminJenisTagihanRoute
+  '/_authenticated/admin/kelas': typeof AuthenticatedAdminKelasRoute
+  '/_authenticated/admin/orang-tua': typeof AuthenticatedAdminOrangTuaRoute
+  '/_authenticated/admin/siswa': typeof AuthenticatedAdminSiswaRoute
+  '/_authenticated/admin/tahun-ajaran': typeof AuthenticatedAdminTahunAjaranRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/admin/jenis-tagihan'
+    | '/admin/kelas'
+    | '/admin/orang-tua'
+    | '/admin/siswa'
+    | '/admin/tahun-ajaran'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/admin/jenis-tagihan'
+    | '/admin/kelas'
+    | '/admin/orang-tua'
+    | '/admin/siswa'
+    | '/admin/tahun-ajaran'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/admin/jenis-tagihan'
+    | '/_authenticated/admin/kelas'
+    | '/_authenticated/admin/orang-tua'
+    | '/_authenticated/admin/siswa'
+    | '/_authenticated/admin/tahun-ajaran'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +162,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/tahun-ajaran': {
+      id: '/_authenticated/admin/tahun-ajaran'
+      path: '/admin/tahun-ajaran'
+      fullPath: '/admin/tahun-ajaran'
+      preLoaderRoute: typeof AuthenticatedAdminTahunAjaranRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/siswa': {
+      id: '/_authenticated/admin/siswa'
+      path: '/admin/siswa'
+      fullPath: '/admin/siswa'
+      preLoaderRoute: typeof AuthenticatedAdminSiswaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/orang-tua': {
+      id: '/_authenticated/admin/orang-tua'
+      path: '/admin/orang-tua'
+      fullPath: '/admin/orang-tua'
+      preLoaderRoute: typeof AuthenticatedAdminOrangTuaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/kelas': {
+      id: '/_authenticated/admin/kelas'
+      path: '/admin/kelas'
+      fullPath: '/admin/kelas'
+      preLoaderRoute: typeof AuthenticatedAdminKelasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/jenis-tagihan': {
+      id: '/_authenticated/admin/jenis-tagihan'
+      path: '/admin/jenis-tagihan'
+      fullPath: '/admin/jenis-tagihan'
+      preLoaderRoute: typeof AuthenticatedAdminJenisTagihanRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedAdminJenisTagihanRoute: typeof AuthenticatedAdminJenisTagihanRoute
+  AuthenticatedAdminKelasRoute: typeof AuthenticatedAdminKelasRoute
+  AuthenticatedAdminOrangTuaRoute: typeof AuthenticatedAdminOrangTuaRoute
+  AuthenticatedAdminSiswaRoute: typeof AuthenticatedAdminSiswaRoute
+  AuthenticatedAdminTahunAjaranRoute: typeof AuthenticatedAdminTahunAjaranRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedAdminJenisTagihanRoute: AuthenticatedAdminJenisTagihanRoute,
+  AuthenticatedAdminKelasRoute: AuthenticatedAdminKelasRoute,
+  AuthenticatedAdminOrangTuaRoute: AuthenticatedAdminOrangTuaRoute,
+  AuthenticatedAdminSiswaRoute: AuthenticatedAdminSiswaRoute,
+  AuthenticatedAdminTahunAjaranRoute: AuthenticatedAdminTahunAjaranRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

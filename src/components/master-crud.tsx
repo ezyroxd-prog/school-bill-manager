@@ -37,6 +37,8 @@ export function MasterCrud<T extends { id: string }>({ table, title, fields, col
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<T | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const db = supabase as any;
 
   async function load() {
     setLoading(true);
