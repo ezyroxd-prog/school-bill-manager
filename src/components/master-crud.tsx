@@ -42,7 +42,7 @@ export function MasterCrud<T extends { id: string }>({ table, title, fields, col
 
   async function load() {
     setLoading(true);
-    let q = supabase.from(table).select(selectColumns);
+    let q = db.from(table).select(selectColumns);
     if (orderBy) q = q.order(orderBy.column, { ascending: orderBy.ascending ?? true });
     const { data, error } = await q;
     if (error) toast.error(error.message);
@@ -62,8 +62,8 @@ export function MasterCrud<T extends { id: string }>({ table, title, fields, col
       else payload[f.name] = (fd.get(f.name) as string)?.trim() || null;
     }
     const op = editing
-      ? supabase.from(table).update(payload).eq("id", editing.id)
-      : supabase.from(table).insert(payload);
+      ? db.from(table).update(payload).eq("id", editing.id)
+      : db.from(table).insert(payload);
     const { error } = await op;
     if (error) return toast.error(error.message);
     toast.success(editing ? "Berhasil diperbarui" : "Berhasil ditambahkan");
@@ -73,7 +73,7 @@ export function MasterCrud<T extends { id: string }>({ table, title, fields, col
 
   async function handleDelete(row: T) {
     if (!confirm("Hapus data ini?")) return;
-    const { error } = await supabase.from(table).delete().eq("id", row.id);
+    const { error } = await db.from(table).delete().eq("id", row.id);
     if (error) return toast.error(error.message);
     toast.success("Berhasil dihapus");
     load();
