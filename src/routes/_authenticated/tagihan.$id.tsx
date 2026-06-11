@@ -2,13 +2,13 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
-import { createPaymentTransaction, getMidtransClientKey } from "@/lib/payments.functions";
+import { createPaymentTransaction, getMidtransClientKey, syncPaymentStatus } from "@/lib/payments.functions";
 import { PageHeader } from "@/components/app-shell";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatRupiah, formatDate, formatDateTime, INVOICE_STATUS_LABEL, PAYMENT_STATUS_LABEL } from "@/lib/format";
 import { toast } from "sonner";
-import { ArrowLeft, Receipt as ReceiptIcon } from "lucide-react";
+import { ArrowLeft, Receipt as ReceiptIcon, RefreshCw } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/tagihan/$id")({
   component: InvoiceDetail,
@@ -26,27 +26,34 @@ function InvoiceDetail() {
   const [invoice, setInvoice] = useState<any>(null);
   const [payments, setPayments] = useState<any[]>([]);
   const [paying, setPaying] = useState(false);
+  const [syncing, setSyncing] = useState<string | null>(null);
   const [snapReady, setSnapReady] = useState(false);
 
   const payFn = useServerFn(createPaymentTransaction);
   const keyFn = useServerFn(getMidtransClientKey);
+  const syncFn = useServerFn(syncPaymentStatus);
+
+  async function loadData() {
+    const [{ data: inv }, { data: pays }] = await Promise.all([
+      supabase.from("invoices").select("*, student:students(full_name, class:classes(name)), billing_type:billing_types(name)").eq("id", id).maybeSingle(),
+      supabase.from("payments").select("*").eq("invoice_id", id).order("created_at", { ascending: false }),
+    ]);
+    setInvoice(inv);
+    setPayments(pays ?? []);
+  }
 
   useEffect(() => {
-    (async () => {
-      const [{ data: inv }, { data: pays }] = await Promise.all([
-        supabase.from("invoices").select("*, student:students(full_name, class:classes(name)), billing_type:billing_types(name)").eq("id", id).maybeSingle(),
-        supabase.from("payments").select("*").eq("invoice_id", id).order("created_at", { ascending: false }),
-      ]);
-      setInvoice(inv);
-      setPayments(pays ?? []);
-    })();
+    loadData();
   }, [id]);
 
   useEffect(() => {
     (async () => {
       const { client_key } = await keyFn();
       if (!client_key) return;
-      if (document.getElementById("midtrans-snap")) { setSnapReady(true); return; }
+      if (document.getElementById("midtrans-snap")) {
+        setSnapReady(true);
+        return;
+      }
       const s = document.createElement("script");
       s.id = "midtrans-snap";
       s.src = "https://app.sandbox.midtrans.com/snap/snap.js";
@@ -62,9 +69,13 @@ function InvoiceDetail() {
       const res = await payFn({ data: { invoice_id: id } });
       if (window.snap && res.snap_token) {
         window.snap.pay(res.snap_token, {
-          onSuccess: () => { toast.success("Pembayaran berhasil"); setTimeout(() => location.reload(), 1500); },
+          onSuccess: async () => { 
+            toast.success("Pembayaran berhasil"); 
+            try { await syncFn({ data: { order_id: res.order_id } }); } catch (e) {}
+            setTimeout(() => location.reload(), 1500); 
+          },
           onPending: () => { toast.info("Pembayaran tertunda, menunggu konfirmasi."); setTimeout(() => location.reload(), 1500); },
-          onError: () => toast.error("Pembayaran gagal"),
+          onError: (r: any) => { toast.error("Pembayaran gagal"); },
           onClose: () => toast.info("Pembayaran dibatalkan"),
         });
       } else if (res.redirect_url) {
@@ -73,6 +84,19 @@ function InvoiceDetail() {
     } catch (e: any) {
       toast.error(e.message ?? "Gagal memproses pembayaran");
     } finally { setPaying(false); }
+  }
+
+  async function handleSync(orderId: string) {
+    setSyncing(orderId);
+    try {
+      const res = await syncFn({ data: { order_id: orderId } });
+      toast.success(res.message);
+      await loadData();
+    } catch (e: any) {
+      toast.error(e.message ?? "Gagal sinkronisasi status");
+    } finally {
+      setSyncing(null);
+    }
   }
 
   if (!invoice) return <p className="text-muted-foreground">Memuat…</p>;
@@ -125,7 +149,7 @@ function InvoiceDetail() {
             <h3 className="font-semibold mb-3">Riwayat Pembayaran</h3>
             <table className="w-full text-sm">
               <thead className="text-left text-muted-foreground border-b">
-                <tr><th className="py-2">Order ID</th><th>Metode</th><th>Status</th><th>Waktu</th><th className="text-right">Nominal</th></tr>
+                <tr><th className="py-2">Order ID</th><th>Metode</th><th>Status</th><th>Waktu</th><th className="text-right">Nominal</th><th></th></tr>
               </thead>
               <tbody>
                 {payments.map((p) => (
@@ -135,6 +159,19 @@ function InvoiceDetail() {
                     <td>{PAYMENT_STATUS_LABEL[p.transaction_status] ?? p.transaction_status}</td>
                     <td>{formatDateTime(p.paid_at ?? p.created_at)}</td>
                     <td className="text-right">{formatRupiah(p.amount)}</td>
+                    <td className="text-right pl-2">
+                      {p.transaction_status === "pending" && (
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          onClick={() => handleSync(p.order_id)}
+                          disabled={syncing === p.order_id}
+                          title="Cek & Sinkronkan Status Pembayaran"
+                        >
+                          <RefreshCw className={`size-3 ${syncing === p.order_id ? "animate-spin" : ""}`} />
+                        </Button>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>

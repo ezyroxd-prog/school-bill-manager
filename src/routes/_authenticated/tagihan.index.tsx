@@ -3,17 +3,18 @@ import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/app-shell";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { formatRupiah, formatDate, INVOICE_STATUS_LABEL } from "@/lib/format";
 import { FileText } from "lucide-react";
 
-export const Route = createFileRoute("/_authenticated/tagihan")({
+export const Route = createFileRoute("/_authenticated/tagihan/")({
   component: InvoicesPage,
 });
 
 function InvoicesPage() {
+  const navigate = useNavigate();
   const [rows, setRows] = useState<any[]>([]);
   const [filter, setFilter] = useState<"all" | "unpaid" | "paid" | "overdue">("all");
   const [loading, setLoading] = useState(true);
@@ -76,8 +77,12 @@ function InvoicesPage() {
                   <div className="text-lg font-bold">{formatRupiah(i.amount)}</div>
                   {!isPaid && Number(i.paid_amount) > 0 && <div className="text-xs text-muted-foreground">Sisa {formatRupiah(sisa)}</div>}
                 </div>
-                <Link to="/tagihan/$id" params={{ id: i.id }}>
-                  <Button variant={isPaid ? "outline" : "default"}>{isPaid ? "Lihat Nota" : "Bayar Sekarang"}</Button>
+                <Link 
+                  to="/tagihan/$id" 
+                  params={{ id: i.id }}
+                  className={buttonVariants({ variant: isPaid ? "outline" : "default" })}
+                >
+                  {isPaid ? "Lihat Nota" : "Bayar Sekarang"}
                 </Link>
               </CardContent>
             </Card>

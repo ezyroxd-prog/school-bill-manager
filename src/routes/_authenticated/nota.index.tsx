@@ -3,16 +3,17 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/app-shell";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Link } from "@tanstack/react-router";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { formatRupiah, formatDateTime } from "@/lib/format";
 import { Receipt as ReceiptIcon } from "lucide-react";
 
-export const Route = createFileRoute("/_authenticated/nota")({
+export const Route = createFileRoute("/_authenticated/nota/")({
   component: ReceiptsPage,
 });
 
 function ReceiptsPage() {
+  const navigate = useNavigate();
   const [rows, setRows] = useState<any[]>([]);
   useEffect(() => {
     (async () => {
@@ -40,8 +41,12 @@ function ReceiptsPage() {
                 <div className="font-bold">{formatRupiah(r.payment?.amount)}</div>
                 <div className="text-xs text-muted-foreground">{r.payment?.payment_type ?? "-"}</div>
               </div>
-              <Link to="/nota/$id" params={{ id: r.id }}>
-                <Button variant="outline">Lihat & Cetak</Button>
+              <Link 
+                to="/nota/$id" 
+                params={{ id: r.id }}
+                className={buttonVariants({ variant: "outline" })}
+              >
+                Lihat &amp; Cetak
               </Link>
             </CardContent>
           </Card>
