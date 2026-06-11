@@ -87,7 +87,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <div className="font-medium truncate">{fullName || user.email}</div>
             <div className="text-muted-foreground capitalize">{role === "admin" ? "Administrator" : "Orang Tua"}</div>
           </div>
-          <Button variant="outline" size="sm" className="w-full" onClick={signOut}>
+          <Button variant="outline" size="sm" className="w-full text-foreground hover:text-foreground" onClick={signOut}>
             <LogOut className="size-4 mr-2" /> Keluar
           </Button>
         </div>
